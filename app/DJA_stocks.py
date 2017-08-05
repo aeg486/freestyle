@@ -41,3 +41,72 @@ for x in tickers:
         break
     else:
         print("Invalid input. Please try again.")
+
+while range_answer == "Y":
+    start = "Pick a start date (yyyy/mm/dd): "
+    start_date = input(start)
+    end = "Pick an end date (yyyy/mm/dd): "
+    end_date = input(end)
+    if end_date < start_date:
+        print("Invalid input. Please try again.")
+    else:
+        break
+
+# user_range = data.DataReader(selected, source, start_date, end_date)
+# daily_closing_range = user_range.ix["Close"].round(2)
+
+
+
+# if range_answer == "Y":
+#     start = "Pick a start date (yyyy/mm/dd): "
+#     end = "Pick an end date (yyyy/mm/dd): "
+#     start_date = input(start)
+#     end_date = input(end)
+#     user_range = data.DataReader(selected, source, start_date, end_date)
+#     daily_closing_range = user_range.ix["Close"].round(2)
+
+if range_answer == "N":
+    start = "Pick a date (yyyy/mm/dd): "
+    start_date = input(start)
+    end_date = start_date
+    user_range = data.DataReader(selected, source, start_date, end_date)
+    daily_closing_range = user_range.ix["Close"].round(2)
+else:
+    print("Invalid input. Please try again.")
+
+
+# elif range_answer == "N":
+#     start = "Pick a date (yyyy/mm/dd): "
+#     start_date = input(start)
+#     end_date = start_date
+#     user_range = data.DataReader(selected, source, start_date, end_date)
+#     daily_closing_range = user_range.ix["Close"].round(2)
+# else:
+#     print("Invalid input. Please try again.")
+
+user_range = data.DataReader(selected, source, start_date, end_date)
+daily_closing_range = user_range.ix["Close"].round(2)
+print(daily_closing_range)
+
+df = pd.DataFrame(daily_closing_range)
+sort_data = df.sort_index(axis=0, ascending=True)
+
+x = sort_data.pct_change()
+x.ix["Cumulative"] = ((x+1).cumprod()-1).iloc[-1]
+percents = x.ix["Cumulative"].map('{:,.2%}'.format)
+
+print("")
+
+if end_date != start_date:
+    print(pd.DataFrame(percents))
+else:
+    pass
+
+filename = 'my_data.csv'
+df.to_csv(filename, index=True)
+
+if end_date != start_date:
+    with open('my_data.csv', 'a') as file:
+        percents.to_csv(file, header=False)
+else:
+    pass
