@@ -43,8 +43,8 @@ cd some/path/to/freestyle
 
 ### Run the python
 ```shell
-python DJA_stocks.py
+python app/DJA_stocks.py
 ```
 
 ### Additional Requirements/information
-This application required the datetime and pandas python packages.
+This application has imported the csv, datetime, and pandas python packages.

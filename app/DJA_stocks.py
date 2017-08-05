@@ -1,5 +1,6 @@
 from pandas_datareader import data
 import datetime
+import csv
 from datetime import date, timedelta
 import pandas as pd
 
@@ -43,46 +44,20 @@ for x in tickers:
         print("Invalid input. Please try again.")
 
 while range_answer == "Y":
-    start = "Pick a start date (yyyy/mm/dd): "
-    start_date = input(start)
-    end = "Pick an end date (yyyy/mm/dd): "
-    end_date = input(end)
+    start_date = input("Pick a start date (yyyy/mm/dd): ")
+    end_date = input("Pick an end date (yyyy/mm/dd): ")
     if end_date < start_date:
         print("Invalid input. Please try again.")
     else:
         break
 
-# user_range = data.DataReader(selected, source, start_date, end_date)
-# daily_closing_range = user_range.ix["Close"].round(2)
-
-
-
-# if range_answer == "Y":
-#     start = "Pick a start date (yyyy/mm/dd): "
-#     end = "Pick an end date (yyyy/mm/dd): "
-#     start_date = input(start)
-#     end_date = input(end)
-#     user_range = data.DataReader(selected, source, start_date, end_date)
-#     daily_closing_range = user_range.ix["Close"].round(2)
-
 if range_answer == "N":
-    start = "Pick a date (yyyy/mm/dd): "
-    start_date = input(start)
+    start_date = input("Pick a start date (yyyy/mm/dd): ")
     end_date = start_date
     user_range = data.DataReader(selected, source, start_date, end_date)
     daily_closing_range = user_range.ix["Close"].round(2)
 else:
-    print("Invalid input. Please try again.")
-
-
-# elif range_answer == "N":
-#     start = "Pick a date (yyyy/mm/dd): "
-#     start_date = input(start)
-#     end_date = start_date
-#     user_range = data.DataReader(selected, source, start_date, end_date)
-#     daily_closing_range = user_range.ix["Close"].round(2)
-# else:
-#     print("Invalid input. Please try again.")
+    pass
 
 user_range = data.DataReader(selected, source, start_date, end_date)
 daily_closing_range = user_range.ix["Close"].round(2)
@@ -102,11 +77,11 @@ if end_date != start_date:
 else:
     pass
 
-filename = 'my_data.csv'
+filename = 'data/my_data.csv'
 df.to_csv(filename, index=True)
 
 if end_date != start_date:
-    with open('my_data.csv', 'a') as file:
+    with open(filename, 'a', newline = '') as file:
         percents.to_csv(file, header=False)
 else:
     pass
